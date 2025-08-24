@@ -1,28 +1,33 @@
-spring.application.name=Policy Vault
+package org.godigit.policyvault.service.impl;
 
-server.port=8080
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.godigit.policyvault.service.EmailService;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/policyvault
-spring.datasource.username=postgres
-spring.datasource.password=root
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.hibernate.ddl-auto=update
+@Service
+@RequiredArgsConstructor
+public class EmailServiceImpl implements EmailService {
 
-spring.jpa.show-sql=true
-logging.level.org.springframework.web=DEBUG
-spring.profiles.active=dev
-security.jwt.secret=riketbhosalesiddharthgirishchandrabhattmanjunathkonu
-security.jwt.expiration=3600000
+    private final JavaMailSender mailSender;
 
-# ===============================
-# Email Configuration
-# ===============================
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=mailfortesting2514@gmail.com        # sender email (must be SMTP enabled)
-spring.mail.password=dweh lnkz oyjn jksa         # use App Password if using Gmail
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
+    @Value("${policyvault.notification.to}")  // compliance officer email from property
+    private String toEmail;
 
-# Compliance officer email (receiver)
-policyvault.notifica
+    @Value("${spring.mail.username}")  //sender email
+    private String fromEmail;
+
+    @Override
+    public void sendEmail(String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(toEmail);
+        message.setSubject(subject);
+        message.setText(body);
+
+        mailSender.send(message);
+
+    }
+}
