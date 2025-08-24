@@ -1,7 +1,11 @@
-spring.application.name=Policy Vault
+dweh lnkz oyjn jksa
 
+spring.application.name=Policy Vault
 server.port=8080
 
+# ===============================
+# Database Configuration
+# ===============================
 spring.datasource.url=jdbc:postgresql://localhost:5432/policyvault
 spring.datasource.username=postgres
 spring.datasource.password=root
@@ -11,5 +15,22 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 logging.level.org.springframework.web=DEBUG
 spring.profiles.active=dev
+
+# ===============================
+# Security
+# ===============================
 security.jwt.secret=riketbhosalesiddharthgirishchandrabhattmanjunathkonu
 security.jwt.expiration=3600000
+
+# ===============================
+# Email Configuration
+# ===============================
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=yourgmail@gmail.com        # 👈 sender email (must be SMTP enabled)
+spring.mail.password=your-app-password          # 👈 use App Password if using Gmail
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# Compliance officer email (receiver)
+policyvault.notification.to=compliance.officer@yourcompany.com
