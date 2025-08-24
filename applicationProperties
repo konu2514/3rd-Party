@@ -1,0 +1,15 @@
+spring.application.name=Policy Vault
+
+server.port=8080
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/policyvault
+spring.datasource.username=postgres
+spring.datasource.password=root
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=update
+
+spring.jpa.show-sql=true
+logging.level.org.springframework.web=DEBUG
+spring.profiles.active=dev
+security.jwt.secret=riketbhosalesiddharthgirishchandrabhattmanjunathkonu
+security.jwt.expiration=3600000
