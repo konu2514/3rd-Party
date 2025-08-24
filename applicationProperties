@@ -1,46 +1,10 @@
-package org.godigit.policyvault.service.impl;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.godigit.policyvault.service.EmailService;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
-
-@Service
-@RequiredArgsConstructor
-public class EmailServiceImpl implements EmailService {
-
-    private final JavaMailSender mailSender;
-
-    @Value("${policyvault.notification.to}")  // compliance officer email from property
-    private String toEmail;
-
-    @Value("${spring.mail.username}")  // sender email
-    private String fromEmail;
-
-    @Override
-    public void sendEmail(String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        // Debug logs
-        System.out.println("📧 DEBUG From Email: [" + fromEmail + "]");
-        System.out.println("📧 DEBUG To Email: [" + toEmail + "]");
-
-        // Trim just in case property has hidden whitespace
-        String trimmedToEmail = (toEmail != null) ? toEmail.trim() : null;
-
-        if (trimmedToEmail == null || trimmedToEmail.isEmpty()) {
-            throw new IllegalArgumentException("❌ To email address is missing or invalid in application.properties");
-        }
-
-        message.setFrom(fromEmail.trim());
-        message.setTo(trimmedToEmail);
-        message.setSubject(subject);
-        message.setText(body);
-
-        mailSender.send(message);
-
-        System.out.println("✅ Email sent successfully to: " + trimmedToEmail);
-    }
-}
+2025-08-24T13:56:42.479+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/policies", parameters={}
+2025-08-24T13:56:42.492+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.godigit.policyvault.controller.PolicyController#createPolicy(PolicyCreateRequest)
+2025-08-24T13:56:42.565+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [PolicyCreateRequest[title=Random, department=Random, content=Random]]
+📧 DEBUG From Email: [mailfortesting2514@gmail.com        # sender email (must be SMTP enabled)]
+📧 DEBUG To Email: [manjunathkonu@gmail.com]
+2025-08-24T13:56:42.707+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler org.godigit.policyvault.exception.GlobalExceptionHandler#handleGeneral(Exception)
+2025-08-24T13:56:42.724+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-08-24T13:56:42.726+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{error=Internal Server Error, message=NO ENTRY Due To =  Could not parse mail, timestamp=2025-08-24T (truncated)...]
+2025-08-24T13:56:42.740+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.mail.MailParseException: Could not parse mail]
+2025-08-24T13:56:42.740+05:30 DEBUG 20576 --- [Policy Vault] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 500 INTERNAL_SERVER_ERROR
